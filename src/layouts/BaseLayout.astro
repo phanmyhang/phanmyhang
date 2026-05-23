@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../utils/url';
+
 interface Props {
   title: string;
   description?: string;
@@ -6,6 +8,9 @@ interface Props {
 }
 
 const { title, description = '', image = '/images/avatar.jpeg' } = Astro.props;
+const favicon = withBase('/images/avatar.jpeg');
+// og:image nên là URL tuyệt đối để mạng xã hội đọc được
+const ogImage = new URL(withBase(image), Astro.site ?? Astro.url).href;
 ---
 
 <!doctype html>
@@ -13,7 +18,7 @@ const { title, description = '', image = '/images/avatar.jpeg' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/jpeg" href="/images/avatar.jpeg" />
+    <link rel="icon" type="image/jpeg" href={favicon} />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -23,7 +28,7 @@ const { title, description = '', image = '/images/avatar.jpeg' } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={ogImage} />
 
     <!-- Fonts: Space Mono giống bản gốc -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

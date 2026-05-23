@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../utils/url';
 import type { LinkCard } from '../data/profile';
 
 interface Props {
@@ -15,7 +16,7 @@ const { link } = Astro.props;
   rel="noopener noreferrer"
 >
   <span class="thumb">
-    <img src={link.thumbnail} alt="" width="56" height="56" loading="lazy" />
+    <img src={withBase(link.thumbnail)} alt="" width="56" height="56" loading="lazy" />
   </span>
   <span class="title">{link.title}</span>
   <span class="dots" aria-hidden="true">

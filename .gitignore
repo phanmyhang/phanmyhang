@@ -24,7 +24,7 @@ pnpm-debug.log*
 
 # playwright artifacts + ảnh chụp màn hình kiểm tra (tạm thời, không thuộc source)
 .playwright-mcp/
-myhangfit-original.png
-myhangfit-clone.png
-myhangfit-clone2.png
-myhangfit-mobile.png
+myhangfit-*.png
+
+# claude code local state
+.claude/

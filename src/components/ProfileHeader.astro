@@ -1,5 +1,6 @@
 ---
 import SocialIcons from './SocialIcons.astro';
+import { withBase } from '../utils/url';
 import type { Profile } from '../data/profile';
 
 interface Props {
@@ -13,7 +14,7 @@ const { profile } = Astro.props;
   <div class="avatar-wrap">
     <img
       class="avatar"
-      src={profile.avatar}
+      src={withBase(profile.avatar)}
       alt={`Ảnh đại diện của ${profile.name}`}
       width="96"
       height="96"

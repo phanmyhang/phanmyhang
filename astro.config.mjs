@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-// Đây là GitHub user site (repo trùng username) -> phục vụ tại gốc tên miền,
-// nên site = https://phanmyhang.github.io và base = '/'.
+// Repo được GitHub Pages phục vụ tại subpath /phanmyhang/ (project site),
+// nên cần đặt base tương ứng. Mọi đường dẫn tài nguyên dùng import.meta.env.BASE_URL.
 export default defineConfig({
   site: 'https://phanmyhang.github.io',
-  base: '/',
+  base: '/phanmyhang',
 });

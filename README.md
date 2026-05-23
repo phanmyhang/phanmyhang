@@ -2,6 +2,10 @@
 
 Trang web một-trang kiểu "link in bio" cho **Mỹ Hằng Fit** (PT 1:1 Online & Offline), xây dựng bằng [Astro](https://astro.build). Giao diện mô phỏng theme/màu sắc/nội dung của trang gốc, đã loại bỏ hoàn toàn mọi yếu tố thương hiệu Linktree.
 
+🌐 **Trang trực tiếp:** https://phanmyhang.github.io/phanmyhang/
+
+Tự động build & deploy qua GitHub Actions mỗi khi push lên `main`.
+
 ## 🎨 Thiết kế
 
 | Yếu tố | Giá trị |
