@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+on:
+  # Chạy mỗi khi push lên nhánh main
+  push:
+    branches: [main]
+  # Cho phép chạy thủ công từ tab Actions
+  workflow_dispatch:
+
+# Quyền cần thiết để deploy lên GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Chỉ cho phép 1 lượt deploy đồng thời; không hủy lượt đang chạy
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build with Astro
+        uses: withastro/action@v3
+        # action này tự cài Node, cài deps (npm ci) và chạy `astro build`,
+        # rồi upload thư mục dist/ làm Pages artifact.
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

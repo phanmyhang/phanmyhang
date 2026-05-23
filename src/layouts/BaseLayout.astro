@@ -1,0 +1,71 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = '', image = '/images/avatar.jpeg' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/jpeg" href="/images/avatar.jpeg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Fonts: Space Mono giống bản gốc -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    /* Bảng màu lấy từ trang gốc */
+    --color-page-bg: rgb(224, 209, 198); /* nền ngoài taupe */
+    --color-panel-bg: rgb(255, 238, 225); /* panel trong kem/peach */
+    --color-card-bg: transparent;
+    --color-card-border: rgb(204, 190, 180);
+    --color-text: rgb(0, 0, 0);
+    --color-icon-bg: rgb(251, 250, 249);
+
+    --font-base: 'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: var(--font-base);
+    background: var(--color-page-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+</style>

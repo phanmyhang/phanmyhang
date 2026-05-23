@@ -1,0 +1,94 @@
+---
+import type { LinkCard } from '../data/profile';
+
+interface Props {
+  link: LinkCard;
+}
+
+const { link } = Astro.props;
+---
+
+<a
+  class="link-card"
+  href={link.href}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <span class="thumb">
+    <img src={link.thumbnail} alt="" width="56" height="56" loading="lazy" />
+  </span>
+  <span class="title">{link.title}</span>
+  <span class="dots" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20">
+      <circle cx="12" cy="5" r="1.6" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.6" fill="currentColor" />
+      <circle cx="12" cy="19" r="1.6" fill="currentColor" />
+    </svg>
+  </span>
+</a>
+
+<style>
+  .link-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 64px;
+    padding: 6px;
+    border: 1px solid var(--color-card-border);
+    border-radius: 32px;
+    background: var(--color-card-bg);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .link-card:hover {
+    transform: scale(1.015);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Thumbnail và dots đặt absolute để không chiếm chỗ trong dòng,
+     nhờ đó title luôn căn giữa thật sự so với cả thẻ. */
+  .thumb {
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .title {
+    flex: 1 1 auto;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    /* chừa lề hai bên bằng chiều rộng thumbnail/dots để không bị đè */
+    padding: 0.5rem 60px;
+  }
+
+  .dots {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    color: var(--color-text);
+    opacity: 0.7;
+  }
+</style>

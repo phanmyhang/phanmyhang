@@ -1,0 +1,106 @@
+---
+interface Props {
+  /** Tên hiển thị dùng trong nội dung chia sẻ */
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<button
+  class="share-btn"
+  type="button"
+  aria-label="Chia sẻ trang"
+  title="Chia sẻ trang"
+  data-share-title={name}
+>
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <path
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 3v12M12 3l-4 4M12 3l4 4M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"
+    />
+  </svg>
+</button>
+
+<span id="share-toast" class="share-toast" role="status" aria-live="polite"></span>
+
+<style>
+  .share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: var(--color-icon-bg);
+    color: var(--color-text);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  .share-btn:hover {
+    transform: scale(1.08);
+  }
+
+  .share-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%) translateY(1rem);
+    background: rgba(0, 0, 0, 0.82);
+    color: #fff;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 50;
+  }
+
+  .share-toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.share-btn');
+  const toast = document.getElementById('share-toast');
+
+  function showToast(message: string) {
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('visible');
+    window.setTimeout(() => toast.classList.remove('visible'), 2000);
+  }
+
+  btn?.addEventListener('click', async () => {
+    const url = window.location.href;
+    const title = btn.dataset.shareTitle ?? document.title;
+
+    // Web Share API (di động hỗ trợ tốt)
+    if (navigator.share) {
+      try {
+        await navigator.share({ title, url });
+        return;
+      } catch {
+        // người dùng hủy hoặc không hỗ trợ -> rơi xuống copy
+      }
+    }
+
+    // Fallback: copy link vào clipboard
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast('Đã sao chép liên kết!');
+    } catch {
+      showToast(url);
+    }
+  });
+</script>
